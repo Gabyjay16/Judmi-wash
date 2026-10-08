@@ -1,0 +1,71 @@
+{
+  "entities": {
+    "Customer": {
+      "title": "Customer",
+      "description": "Laundry customer record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier for customer" },
+        "name": { "type": "string", "description": "Customer full name" },
+        "phone": { "type": "string", "description": "Customer phone number" },
+        "address": { "type": "string", "description": "Customer delivery address" },
+        "notes": { "type": "string", "description": "Special laundry preferences or notes" },
+        "createdAt": { "type": "number", "description": "Creation timestamp in epoch millis" }
+      },
+      "required": ["id", "name", "phone", "createdAt"]
+    },
+    "LaundrySession": {
+      "title": "LaundrySession",
+      "description": "A customer laundry load session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique session ID" },
+        "customerId": { "type": "string", "description": "Associated customer ID" },
+        "customerName": { "type": "string", "description": "Cached customer name" },
+        "customerPhone": { "type": "string", "description": "Cached customer phone number" },
+        "sessionCode": { "type": "string", "description": "Friendly code like LS-1001" },
+        "price": { "type": "number", "description": "Service charge in CFA Francs" },
+        "cost": { "type": "number", "description": "Operating cost in CFA Francs" },
+        "serviceType": { "type": "string", "description": "Type of laundry service" },
+        "isCompleted": { "type": "boolean", "description": "Whether session is finished" },
+        "completedAt": { "type": "number", "description": "Completion timestamp in epoch millis" },
+        "notes": { "type": "string", "description": "Staff instructions" },
+        "createdAt": { "type": "number", "description": "Creation timestamp in epoch millis" }
+      },
+      "required": ["id", "customerId", "customerName", "customerPhone", "sessionCode", "price", "isCompleted", "createdAt"]
+    },
+    "DressItem": {
+      "title": "DressItem",
+      "description": "Garment item under a laundry session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique dress ID" },
+        "sessionId": { "type": "string", "description": "Associated session ID" },
+        "customerId": { "type": "string", "description": "Customer ID who owns dress" },
+        "imageUri": { "type": "string", "description": "Image URI or base64 storage string" },
+        "dressName": { "type": "string", "description": "Garment name/description" },
+        "color": { "type": "string", "description": "Garment color" },
+        "category": { "type": "string", "description": "Garment category" },
+        "isPoked": { "type": "boolean", "description": "Whether customer has poked this item" },
+        "pokedMessage": { "type": "string", "description": "Poke message or special request" },
+        "pokedAt": { "type": "number", "description": "Timestamp when poked" },
+        "createdAt": { "type": "number", "description": "Creation timestamp in epoch millis" }
+      },
+      "required": ["id", "sessionId", "dressName", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/customers/{customerId}": {
+      "schema": { "$ref": "#/entities/Customer" },
+      "description": "Collection of customer profiles"
+    },
+    "/sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/LaundrySession" },
+      "description": "Collection of laundry sessions"
+    },
+    "/sessions/{sessionId}/dresses/{dressId}": {
+      "schema": { "$ref": "#/entities/DressItem" },
+      "description": "Subcollection of dress items in a session"
+    }
+  }
+}

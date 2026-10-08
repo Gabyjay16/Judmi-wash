@@ -1,0 +1,6 @@
+{
+  "name": "Judmi Wash",
+  "description": "Smart laundry management with customer sessions, dress photo cataloging, profit analytics, and AI dress owner identification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
